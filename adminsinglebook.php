@@ -57,7 +57,7 @@ if($errorMessage !=""){
 		echo "
 		<div class='single-book'>
 	<div class='card m-12 col-sm-12'> 
-		<img src='uploads/{$bookData ['book_picture']}' class='card-img-top' alt='...'>
+		<br><img src='uploads/{$bookData ['book_picture']}' class='card-img-top' alt='...'>
 		<div class='card-body'>
 		    <h5 class='card-title'>{$bookData ['book_title']} <br> {$bookData ['author_firstname']} {$bookData ['author_lastname']}</h5>
 			<p class='card-text'>Bokbeskrivning: {$bookData ['book_description']}</p>
@@ -76,45 +76,13 @@ if($errorMessage !=""){
 		<button class='bubbly-button'><a href='editbook.php?book_id={$bookData['book_id']}'>Edit book</a></button><br>
 		<button class='bubbly-button'><a href='deletebook.php?book_id={$bookData['book_id']}'>Delete book</a></button><br>   
 	</div>
-	</div>"
+	</div>
+	<br>"
 	;
 	
 ?>
 
-
-
-<?php 
-  if (isset($_POST['send'])) {
-	createRaitingMark2($conn, $_POST["raiting"]);
-}
-		
-?>
-
-<h1>Leave a review about the product</h1>
- 
-   <form method="post" action="">
-   
-   
-   
-                <label for="raiting">Your mark:</label><br />
-				<select type="text" id="raiting" placeholder="raiting" name="raiting"><br />
-				<option value ="1">Mark «1»</option>
-				<option value ="2">Mark «2»</option>
-				<option value ="3">Mark «3»</option>
-				<option value ="3">Mark «4»</option>
-				<option value ="3">Mark «5»</option>
-				</select><br />
-				
-   
-   
-	
-	<input type="submit" name="send" value="Skicka"><br />
-		<br>
-    </form>
-
-
-
-
+          </div> 
 		</div>
 	</div>
 </section>

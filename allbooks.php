@@ -37,14 +37,55 @@ $selectedIllustrator = fetchIllustrator ($conn);
 
 include "includes/config1.php";
 
+
+$allBookCategory = selectAllCategory ($conn);
+
+
+
+
+   if (isset($_GET['filtercategory']) && $_GET['filtercategory'] !="0") {
+	$column = "category_name";
+	$filterCriteria = $_GET['filtercategory'];
+	$selectedBooks = selectFilteredBooks($conn, $filterCriteria, $column);
+   }
+   
+   else {
+
 $selectedBooks = selectBooks($conn, 20);
+
+}
 
 ?>
 
 
+<section id="sortcategory" class="py-5">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col align-self-center text-center">
+
+ <form action="" method = "GET" id="filterform">
+	<label for="filtercategory">Name of the category: </label>
+	<br>	
+		<select name="filtercategory" id="filtercategory" onchange="submitFilterForm()">
+		<option value="0">Choose..</option>
+		<?php 
+		foreach($allBookCategory as $row){
+		echo "<option value='{$row['category_name']}'>{$row['category_name']}</option>";
+			}
+		?> 
+		
+       </select><br>
+	   <br>
+	     <input type="submit" name="form-submit2" value="Skicka">
+	</form>
+
+		</div>
+	</div>
+</div>
+</section>
 
 
-<section id="allbooks" class="py-5">
+<section id="allbooks" class="py-3">
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col align-self-center text-center">

@@ -38,12 +38,9 @@ include "navigeringen.php";
    }
    else{
 	   $errorMessage = "No book has been chosen.";
-   }	
+   }
+
 ?>
-
-
-
-
 
 
 
@@ -57,7 +54,7 @@ if($errorMessage !=""){
 		echo "
 		<div class='single-book'>
 	<div class='card m-12 col-sm-12'> 
-		<img src='uploads/{$bookData ['book_picture']}' class='card-img-top' alt='...'>
+		<br><img src='uploads/{$bookData ['book_picture']}' class='card-img-top' alt='...'>
 		<div class='card-body'>
 		    <h5 class='card-title'>{$bookData ['book_title']} <br> {$bookData ['author_firstname']} {$bookData ['author_lastname']}</h5>
 			<p class='card-text'>Bokbeskrivning: {$bookData ['book_description']}</p>
@@ -73,15 +70,16 @@ if($errorMessage !=""){
 		<li class='list-group-item'>Antal sidor: {$bookData['book_page']}</li>
 		</ul>
 	</div>
-	</div>"
+	</div>
+	<br>"
 	;
 ?>
 
-
+<div id="reviews">
 
 <?php 
   if (isset($_POST['send'])) {
-	createRaitingMark2($conn, $_POST["raiting"]);
+	createRaitingMark($conn, $_GET['book_id'], $_POST["raiting"]);
 }
 		
 ?>
@@ -89,28 +87,23 @@ if($errorMessage !=""){
 <h1>Leave a review about the product</h1>
  
    <form method="post" action="">
-   
-   
-   
-                <label for="raiting">Your mark:</label><br />
+     
+   <label for="raiting">Your mark:</label><br />
 				<select type="text" id="raiting" placeholder="raiting" name="raiting"><br />
+               
 				<option value ="1">Mark «1»</option>
 				<option value ="2">Mark «2»</option>
 				<option value ="3">Mark «3»</option>
-				<option value ="3">Mark «4»</option>
-				<option value ="3">Mark «5»</option>
+				<option value ="4">Mark «4»</option>
+				<option value ="5">Mark «5»</option>
 				</select><br />
-				
-   
-   
-	
-	<input type="submit" name="send" value="Skicka"><br />
+				<br>
+	<button type="submit" name="send">Estimate</button><br />
 		<br>
     </form>
+ </div> 
 
-
-
-
+          </div> 
 		</div>
 	</div>
 </section>

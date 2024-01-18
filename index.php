@@ -156,7 +156,7 @@ echo "<div class='row justify-content-center'>";
 foreach ($selectedLastBooks as $row){
 	
 	echo "
-	<div class='card m-3 col-md-3'> 
+	<div class='card m-3 col-md-3 py-3'> 
 		<br><img src='uploads/{$row['book_picture']}' class='card-img-top' alt='...'>
 		<div class='card-body'>
 			<h5 class='card-title'>{$row['book_title']} <br> {$row['author_firstname']} {$row['author_lastname']}</h5>
@@ -184,8 +184,32 @@ foreach ($selectedLastBooks as $row){
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col align-self-center text-center">
-				<h2>Rekommenderade böcker</h2>
+				<h2>Rekommenderade böcker</h2>			
 			
+<?php 
+
+$allFastRaitingMark = selectFastRaitingMark($conn, 2);
+
+
+echo "<div class='row justify-content-center'>";
+foreach ($allFastRaitingMark as $row){
+	
+	
+	echo "
+	<div class='card m-3 col-md-3 py-3'>
+        <br><h5 class='card-title'>{$row['book_title']}</h5>	
+		<br><img src='uploads/{$row['book_picture']}' class='card-img-top' alt='...'>
+		<div class='card-body'>
+			<p class='card-title'>Raiting: {$row['raiting']}</p>
+		</div>
+		<button class='bubbly-button'><a href='singlebook.php?book_id={$row['book_id']}'>View info</a></button><br>
+                 
+	</div>"
+	;	
+
+}
+?>
+		
 				
 			</div>
 		</div>

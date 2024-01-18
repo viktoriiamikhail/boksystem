@@ -15,7 +15,7 @@
 			<div class="col-md-4 nb-4 text-center"
 				<h3 class="text-uppercase">Boksystem Oy</h3>
 				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-				<p><a href="#">Här kommer en länk</a></p>
+				<p><a href="kontakt.php"">Kontaktuppgifter</a></p>
 			</div>					
 		</div>
 	</div>

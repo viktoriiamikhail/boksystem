@@ -138,20 +138,7 @@ function createAge($conn, $ageinterval){
 	    $stmt_insertAge->execute();
 }
 
-function createRaitingMark($conn, $prod, $raitingmark){
-		$stmt_insertRaitingMark = $conn->prepare("INSERT INTO table_raiting (product_id, raiting_mark) VALUES (:prod, :raitingmark)"); 
-		$stmt_insertRaitingMark->bindParam(':prod', $prod, PDO::PARAM_STR);
-		$stmt_insertRaitingMark->bindParam(':raitingmark', $raitingmark, PDO::PARAM_STR);
-	    $stmt_insertRaitingMark->execute();
-	
-}
 
-function createRaitingMark2($conn, $raiting){
-		$stmt_insertRaitingMark2 = $conn->prepare("INSERT INTO reviews (raiting) VALUES (:raiting)"); 
-		$stmt_insertRaitingMark2->bindParam(':raiting', $raiting, PDO::PARAM_STR);
-	    $stmt_insertRaitingMark2->execute();
-	
-}
 
 //Bygg query som hämtar ut alla rader ur databasen ifall bookstatus active
 function selectBooks ($conn, $amount){
@@ -353,7 +340,7 @@ function searchBooks($conn){
 			return $searchBooksQuery;	
 		}
 		
-//Bygg query som hämtar ut alla rader ur databasen table Category
+//Bygg query som hämtar ut alla rader ur databasen table Category with amount
     function selectCategory ($conn, $amount){
 	$amount = intval ($amount);
 	$selectedCategory = $conn->prepare(
@@ -367,16 +354,72 @@ function searchBooks($conn){
 }
 
 
+// Bygg query som hämtar ut alla rader ur databasen table Category for filter
+ function selectAllCategory ($conn){
+		$allBookCategory = $conn->query("SELECT DISTINCT category_name FROM table_category");
+	    return $allBookCategory;
+	}
+
+
+
+// Bygg query som hämtar ut Category name ur databasen with filter
+function selectFilteredBooks ($conn, $filterCriteria, $column){
+	$sql_query = 'SELECT *
+     FROM table_books
+         INNER JOIN table_creator
+		 ON table_books.creator_fk = table_creator.creator_id 
+		 INNER JOIN table_age
+		 ON table_books.age_fk = table_age.age_id 
+		 INNER JOIN table_author
+		 ON table_books.author_fk = table_author.author_id 
+		 INNER JOIN table_language
+	     ON table_books.language_fk = table_language.language_id
+         INNER JOIN table_illustrator
+	     ON table_books.illustrator_fk = table_illustrator.illustrator_id 
+		 INNER JOIN table_publisher
+		 ON table_books.publisher_fk = table_publisher.publisher_id 
+         INNER JOIN table_category
+	     ON table_books.category_fk = table_category.category_id 	
+         INNER JOIN table_genre
+	     ON table_books.genre_fk = table_genre.genre_id 		
+	 WHERE '; 
+	 if($column == "category_name") {
+		 $sql_query .= "category_name";
+	}
+	$sql_query .= " = :filter";
+	$selectedBooks = $conn->prepare($sql_query);
+	$selectedBooks->bindParam(':filter', $filterCriteria, PDO::PARAM_STR);
+	$selectedBooks->execute();
+	return $selectedBooks;   
+	}
+
+
+
+//Bygg query som insert reviews i databasen 
+	function createRaitingMark($conn, $prod, $raiting){
+		$stmt_insertRaitingMark = $conn->prepare("INSERT INTO table_reviews (book_fk, raiting) VALUES (:prod, :raiting)");
+        $stmt_insertRaitingMark->bindParam(':prod', $prod, PDO::PARAM_STR);		
+		$stmt_insertRaitingMark->bindParam(':raiting', $raiting, PDO::PARAM_STR);
+	    $stmt_insertRaitingMark->execute();
+}
+
+
+
+//
+ function selectFastRaitingMark ($conn){
+		$allFastRaitingMark = $conn->query("SELECT *, count(*) c FROM table_reviews
+		 INNER JOIN table_books
+		 ON table_reviews.book_fk = table_books.book_id
+		 GROUP BY raiting ORDER BY c DESC LIMIT 3
+		");
+	    return $allFastRaitingMark;
+	}
 
 
 
 
 
-
-
-
-
-
+/*
 //Bygg query som search en rad/rader ur databasen
 function searchCategory($conn){
 			$searchCategoryQuery = $conn->prepare("SELECT * FROM table_books
